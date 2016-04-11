@@ -18,7 +18,7 @@ class CreateUssdMenuItemsTable extends Migration
             $table->integer('menu_id')->unsigned();
             $table->foreign('menu_id')
                 ->references('id')
-                ->on('menus')
+                ->on('ussd_menus')
                 ->onDelete('cascade');
             $table->string('description');
             $table->integer('type')->default(0);
