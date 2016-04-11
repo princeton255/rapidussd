@@ -19,21 +19,26 @@ class UssdController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($data = NULL)
     {
         error_reporting(0);
         header('Content-type: text/plain');
         set_time_limit(100);
 
-        //get inputs
-        $sessionId = $_REQUEST["sessionId"];
-        $serviceCode = $_REQUEST["serviceCode"];
-        $phoneNumber = $_REQUEST["phoneNumber"];
-        $text = $_REQUEST["text"];   //
+        //get inputs from request if none passed
+        if(is_null($data))
+        {
+            $sessionId = $_REQUEST["sessionId"];
+            $serviceCode = $_REQUEST["serviceCode"];
+            $phoneNumber = $_REQUEST["phoneNumber"];
+            $text = $_REQUEST["text"];
+
+            $data = ['phone' => $phoneNumber, 'text' => $text, 'service_code' => $serviceCode, 'session_id' => $sessionId];
+        }
 
 
-        $data = ['phone' => $phoneNumber, 'text' => $text, 'service_code' => $serviceCode, 'session_id' => $sessionId];
 
+        
         //log USSD request
         ussd_logs::create($data);
 
